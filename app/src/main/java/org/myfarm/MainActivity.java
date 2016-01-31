@@ -2,7 +2,11 @@ package org.myfarm;
 
 import android.app.*;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -15,6 +19,9 @@ import android.support.v4.app.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,6 +32,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.PopupWindow;
 
 import com.google.android.gms.maps.MapFragment;
 
@@ -125,7 +133,22 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
 
     //implement action handlers into fragments
     public boolean addPlot(MenuItem v){
-        mapFragment.addPlot(v);
+        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View inflatedView = layoutInflater.inflate(R.layout.plot_edit_popover, null, false);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        PopupWindow popWindow = new PopupWindow(inflatedView, size.x - 50,size.y - 500, true );
+
+        popWindow.setFocusable(true);
+        popWindow.setOutsideTouchable(true);
+        popWindow.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));        //popWindow.setAnimationStyle(android.R.anim.an); // call this before showing the popup
+
+        popWindow.showAtLocation(findViewById(R.id.main_bar_view), Gravity.BOTTOM, 0, 150);  // 0 - X postion and 150 - Y position
+
+        //mapFragment.addPlot(v);
         return true;
     }
     public boolean editCurrentPlot(MenuItem v){
