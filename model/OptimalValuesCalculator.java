@@ -14,8 +14,8 @@ public class OptimalValuesCalculator {
     
     public OptimalValuesCalculator(double landArea, Crop crop, Fertilizer fertilizer) {
         this.landArea = landArea; // in m^2
-        this.crop = crop;
-        this.fertilizer = fertilizer;
+        this.crop = crop; //type of crop [Corn, Rice, Wheat, Soybean]
+        this.fertilizer = fertilizer; //type of fertilizer [Urea, Sheep, Swine, Cow, Chicken]
     }
 
     public double getSeedAmount() {
@@ -37,5 +37,13 @@ public class OptimalValuesCalculator {
     
     public double getLandArea() {
         return this.landArea;
+    }
+    
+    public int getStart() {
+        return this.crop.getStart();
+    }
+    
+    public int getHarvest() {
+        return this.crop.getHarvest();
     }
 }
