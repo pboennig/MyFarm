@@ -11,7 +11,7 @@ public class OptimalValuesCalculator {
         System.out.println(myCalc.getSeedAmount()); //in seeds
     }
     
-    public OptimalValuesCalculator(double landArea, Crop crop, int nFertilizerContent) {
+    public OptimalValuesCalculator(double landArea, Crop crop, double nFertilizerContent) {
         this.landArea = landArea; // in m^2
         this.crop = crop; //type of crop [Corn, Rice, Wheat, Soybean]
         this.nFertilizerContent = nFertilizerContent; //type of fertilizer [Urea, Sheep, Swine, Cow, Chicken]
