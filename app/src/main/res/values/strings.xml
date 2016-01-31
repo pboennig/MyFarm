@@ -4,5 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_addPlot">Add Plot</string>
+    <string name="action_editPlot">Edit Plot</string>
 </resources>
