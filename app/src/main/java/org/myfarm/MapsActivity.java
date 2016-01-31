@@ -1,6 +1,10 @@
 package org.myfarm;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Telephony;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.*;
 import android.graphics.*;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.*;
 import android.view.*;
@@ -47,10 +52,14 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
     private double lastLat;
     private double lastLon;
     PolygonOptions plotOptions = new PolygonOptions();
-    List<LatLng> latLngs = new ArrayList<>();
+    //List<LatLng> latLngs = new ArrayList<>();
     private static final String TAG = MapsActivity.class.getSimpleName();
     private Location mCurrentLocation;
     LocationRequest mLocationRequest = new LocationRequest();
+    List<PolygonOptions> plots = new ArrayList<PolygonOptions>();
+    private int plotCount = 0;
+    List<Double> plot_areas= new ArrayList<Double>();
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -125,7 +134,8 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
     }
     @Override
     public void onConnected(Bundle connectionHint) {
-        LocationServices.FusedLocationApi.requestLocationUpdates(
+
+            LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
@@ -134,7 +144,7 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
             currentLon = mLastLocation.getLongitude();
         }
     }
-    private void refreshConnection() {
+    /**private void refreshConnection() {
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
@@ -144,7 +154,7 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
             Log.d(TAG, currentLat+"");
         }
     }
-    /**
+
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
@@ -163,16 +173,28 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
         mMap.addMarker(new MarkerOptions().position(myanmar).title("Marker in Myanmar"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myanmar));
 
-        Polygon polygon2 = mMap.addPolygon(new PolygonOptions()
-                .add(new LatLng(0, 0), new LatLng(0, 5), new LatLng(3, 5), new LatLng(0, 0))
-                .strokeColor(Color.RED)
-                .fillColor(Color.BLUE));
+        Polygon lot1 = mMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(37.412634,-122.0711922), new LatLng(37.412958,-122.0711872), new LatLng(37.413051,-122.0736182), new LatLng(37.412751,-122.0736742))
+                .strokeColor(Color.YELLOW)
+                .fillColor(Color.argb(30,200,0,0)));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
+            @Override
+            public void onMapClick(LatLng point) {
+                plots.get(plotCount).add(point);
+                //latLngs.add(point);
+                mMap.addMarker(new MarkerOptions().position(point));
+                /*mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(point));*/
+            }
+        });
+        plots.add(new PolygonOptions());
 // Get back the mutable Polygon
     }
+
     public void addPlot(MenuItem v) {
         //refreshConnection();
-        if (!(currentLat == lastLat && currentLon == lastLon)) {
+        /*if (!(currentLat == lastLat && currentLon == lastLon)) {
             plotOptions.add(new LatLng(currentLat, currentLon));
             latLngs.add(new LatLng(currentLat, currentLon));
             lastLon = currentLon;
@@ -181,14 +203,25 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
         mMap.addMarker(new MarkerOptions().position(new LatLng(currentLat, currentLon)));
         Log.d(TAG, currentLat + "");
         Log.d(TAG, currentLon + "");
-        Log.d(TAG, latLngs.toString());
+        Log.d(TAG, latLngs.toString());*/
+        plots.get(plotCount).strokeColor(Color.argb(90,200,0,0));
+        plots.get(plotCount).fillColor(Color.argb(30, 200, 0, 0));
+        mMap.addPolygon(plots.get(plotCount));
+        plot_areas.add(SphericalUtil.computeArea(plots.get(plotCount).getPoints()));
+        Log.d(TAG, SphericalUtil.computeArea(plots.get(plotCount).getPoints()) + "");
+        //Log.d(TAG, plots.get(plotCount).getPoints() + "");
+        Log.d(TAG, plot_areas.toString());
+        plotCount+=1;
+        plots.add(new PolygonOptions());
+
 
     }
-    public void plotPolygon (View v) {
+    public void plotPolygon(View v) {
         plotOptions.strokeColor(Color.RED);
         mMap.addPolygon(plotOptions);
         mMap.addPolygon(plotOptions);
-        Log.d(TAG, SphericalUtil.computeArea(latLngs)+"");
+
+        //Log.d(TAG, SphericalUtil.computeArea(latLngs)+"");
     }
 
     public void editCurrentPlot(){
