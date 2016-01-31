@@ -14,6 +14,10 @@ public enum Crop {
     public final int startOfHarvestMonth;
     public final int[] color;
     
+    public final int RED = 0;
+    public final int GREEN = 1;
+    public final int BLUE = 2;
+    
     Crop(double optimalFertilizer, double kcValue, int seedsPerHectare, int startOfPlantingMonth, int startOfHarvestMonth, int[] color) {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(cal.get(Calendar.MONTH));
