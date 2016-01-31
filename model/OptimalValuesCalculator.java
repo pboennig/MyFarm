@@ -6,16 +6,15 @@ public class OptimalValuesCalculator {
     private double precipitationPerHectacre;
 
     public static void main(String... args) {
-        OptimalValuesCalculator myCalc = new OptimalValuesCalculator(5.0, Crop.CORN, Fertilizer.COW, 1.0);
+        OptimalValuesCalculator myCalc = new OptimalValuesCalculator(5.0, Crop.CORN, Fertilizer.COW);
         System.out.println(myCalc.getWaterAmount()); // in liters
         System.out.println(myCalc.getFertilizerAmount()); // in kg
         System.out.println(myCalc.getSeedAmount()); //in seeds
     }
     
-    public OptimalValuesCalculator(double landArea, Crop crop, Fertilizer fertilizer, double precipitationPerHectacre) {
+    public OptimalValuesCalculator(double landArea, Crop crop, Fertilizer fertilizer) {
         this.landArea = landArea; // in m^2
         this.crop = crop;
-        this.precipitationPerHectacre = precipitationPerHectacre;
         this.fertilizer = fertilizer;
     }
 
