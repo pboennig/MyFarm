@@ -1,5 +1,6 @@
 package org.myfarm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -80,17 +81,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_map) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            Intent intent = new Intent(this,PlotMapActivity.class);
+        } else if (id == R.id.nav_list) {
+            Intent intent = new Intent(this,PlotListActivity.class);
+        } else if (id == R.id.nav_supplies) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_yields) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
