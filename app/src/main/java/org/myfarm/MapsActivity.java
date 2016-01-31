@@ -1,17 +1,22 @@
-package com.mihirtrivedi.farm;
+package org.myfarm;
 
+import android.net.Uri;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.*;
 import android.graphics.*;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.*;
 import android.view.*;
 import com.google.android.gms.location.*;
@@ -25,12 +30,14 @@ import com.google.maps.android.SphericalUtil;
 import java.util.*;
 import android.util.Log;
 import com.google.android.gms.location.LocationRequest;
+import android.support.v7.widget.Toolbar;
+
 
 
 //import gms.drive.*;
 import android.support.v4.app.FragmentActivity;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+public class MapsActivity extends MapFragment implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -45,21 +52,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location mCurrentLocation;
     LocationRequest mLocationRequest = new LocationRequest();
 
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
+    /*public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d(TAG,"111");
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.activity_maps, container, false);
+    }*/
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        //ADD BUTTONS TO TOOLBAR
+        //Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        //getActivity().findViewById(R.id.add_plot_bar_button).setVisibility(View.VISIBLE);
+        //getActivity().findViewById(R.id.edit_plot_bar_button).setVisibility(View.VISIBLE);
+
+        //setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        Button addPoint = (Button)findViewById(R.id.plot_point);
-        addPoint.setText("point");
-        Button addPlot = (Button)findViewById(R.id.plot_polygon);
-        addPlot.setText("plot");
+        this.getMapAsync(this);
         if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
+            mGoogleApiClient = new GoogleApiClient.Builder(this.getActivity().getBaseContext())
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
@@ -70,20 +86,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
        //locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,0,this);
+        setHasOptionsMenu(true);
 
     }
+    /*public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.activity_maps, container, false);
+    }*/
+
+    //inflate the menu
+    @Override
+    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+        inflater.inflate(R.menu.map_menu, menu);
+    }
+
     public void onConnectionSuspended (int t) {
 
     }
     public void onConnectionFailed (ConnectionResult t) {
 
     }
-    protected void onStart() {
+    public void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
     }
 
-    protected void onStop() {
+    public void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
     }
@@ -141,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 // Get back the mutable Polygon
     }
-    public void plotPoint(View v) {
+    public void addPlot(MenuItem v) {
         //refreshConnection();
         if (!(currentLat == lastLat && currentLon == lastLon)) {
             plotOptions.add(new LatLng(currentLat, currentLon));
@@ -154,7 +183,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, currentLon + "");
         Log.d(TAG, latLngs.toString());
 
-
     }
     public void plotPolygon (View v) {
         plotOptions.strokeColor(Color.RED);
@@ -162,5 +190,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addPolygon(plotOptions);
         Log.d(TAG, SphericalUtil.computeArea(latLngs)+"");
     }
+
+    public void editCurrentPlot(){
+
+    }
+
 
 }

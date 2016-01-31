@@ -8,7 +8,7 @@ import android.widget.ListView;
  * Created by jakeglass on 1/30/16.
  */
 public class PlotMapActivity extends Activity {
-    ListView listView;
+  /*  ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -20,5 +20,5 @@ public class PlotMapActivity extends Activity {
 
     private class PlotListView extends ListView {
 
-    }
+    }*/
 }

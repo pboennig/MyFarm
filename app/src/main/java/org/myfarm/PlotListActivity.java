@@ -9,7 +9,7 @@ import android.widget.SimpleCursorAdapter;
  * Created by jakeglass on 1/30/16.
  */
 public class PlotListActivity extends ListActivity {
-    implements LoaderManager.LoaderCallbacks<Cursor> {
+    /*implements LoaderManager.LoaderCallbacks<Cursor> {
 
         // This is the Adapter being used to display the list's data
         SimpleCursorAdapter mAdapter;
@@ -80,5 +80,5 @@ public class PlotListActivity extends ListActivity {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Do something when a list item is clicked
-    }
+    }*/
 }

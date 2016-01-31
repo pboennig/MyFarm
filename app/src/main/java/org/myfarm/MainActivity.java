@@ -1,9 +1,21 @@
 package org.myfarm;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.app.FragmentTransaction;
+
+import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,8 +26,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.google.android.gms.maps.MapFragment;
+
+public class MainActivity extends AppCompatActivity implements MapsActivity.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = MapsActivity.class.getSimpleName();
+    private MapsActivity mapFragment = new MapsActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +39,19 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
+        /*//fragment handling
+        Fragment fragment = null;
+        Class fragmentClass = null;
+        fragmentClass = MapsActivity.class;
+        try {
+            Log.d(TAG,"fragCreateInActivity");
+            fragment = (MapsActivity) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+        //finish nav layout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -68,22 +87,35 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
+
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
+        Class fragmentClass = null;
 
         if (id == R.id.nav_map) {
+
+            //initiate buttons
+            FragmentTransaction fragmentTransaction =  getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.main_bar_view, mapFragment);
+            fragmentTransaction.commit();
+
+
             // Handle the camera action
-            Intent intent = new Intent(this,PlotMapActivity.class);
+            /*Intent intent = new Intent(this,MapsActivity.class);
+            startActivity(intent);
+            Log.d(TAG, "test");*/
         } else if (id == R.id.nav_list) {
             Intent intent = new Intent(this,PlotListActivity.class);
         } else if (id == R.id.nav_supplies) {
@@ -100,4 +132,20 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    //implement fragment callbacks:
+    public void onFragmentInteraction(Uri uri){
+        //you can leave it empty
+    }
+
+    //implement action handlers into fragments
+    public boolean addPlot(MenuItem v){
+        mapFragment.addPlot(v);
+        return true;
+    }
+    public boolean editCurrentPlot(MenuItem v){
+        //TODO: implement something here!
+        return true;
+    }
+
 }
