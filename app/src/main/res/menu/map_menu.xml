@@ -8,7 +8,7 @@
         android:orderInCategory="100"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/action_addPlot"
-        android:onClick="addPlot"
+        android:onClick="startPlotting"
         app:showAsAction="always" />
     <item
         android:id="@+id/edit_plot_bar_button"

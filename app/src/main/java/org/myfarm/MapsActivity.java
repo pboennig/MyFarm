@@ -43,7 +43,9 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.app.FragmentActivity;
 
 public class MapsActivity extends MapFragment implements OnMapReadyCallback, ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
-
+    private Menu localMenu;
+    private MenuInflater localInflater;
+    public boolean plotting;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -107,7 +109,14 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
     //inflate the menu
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
-        inflater.inflate(R.menu.map_menu, menu);
+        localMenu = menu;
+        localInflater = inflater;
+        if(plotting == false){
+            inflater.inflate(R.menu.map_menu, menu);
+        }
+        else{
+            inflater.inflate(R.menu.map_plotting_menu, menu);
+        }
     }
 
     public void onConnectionSuspended (int t) {
@@ -130,13 +139,13 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
         currentLat = location.getLatitude();
         currentLon = location.getLongitude();
         Log.d(TAG, currentLon + "");
-        Log.d(TAG, currentLat+"");
+        Log.d(TAG, currentLat + "");
     }
     @Override
     public void onConnected(Bundle connectionHint) {
 
             LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
+                    mGoogleApiClient, mLocationRequest, this);
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
@@ -190,6 +199,19 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
         });
         plots.add(new PolygonOptions());
 // Get back the mutable Polygon
+    }
+    public void startPlotting(){
+        plotting = true;
+        //override to regenerate the menu
+        getActivity().invalidateOptionsMenu();
+        this.onCreateOptionsMenu(localMenu,localInflater);
+    }
+
+    public Object[] endPlotting(){
+        plotting = false;
+        getActivity().invalidateOptionsMenu();
+        this.onCreateOptionsMenu(localMenu,localInflater);
+        return new Object[]{plots, plot_areas};
     }
 
     public void addPlot(MenuItem v) {

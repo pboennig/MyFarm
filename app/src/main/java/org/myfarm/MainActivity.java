@@ -132,7 +132,11 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
     }
 
     //implement action handlers into fragments
-    public boolean addPlot(MenuItem v){
+    public boolean donePlotting(MenuItem v){
+
+        //end plotting in the Shard and get the result object, which contains plots, plot_areas, a List<PolygonOptions> and List<Double>
+        Object[] plotResultsObject = mapFragment.endPlotting();
+
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View inflatedView = layoutInflater.inflate(R.layout.plot_edit_popover, null, false);
 
@@ -140,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
         Point size = new Point();
         display.getSize(size);
 
-        PopupWindow popWindow = new PopupWindow(inflatedView, size.x - 50,size.y - 500, true );
+        PopupWindow popWindow = new PopupWindow(inflatedView, size.x - 50,size.y - 500, true);
 
         popWindow.setFocusable(true);
         popWindow.setOutsideTouchable(true);
@@ -148,7 +152,17 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
 
         popWindow.showAtLocation(findViewById(R.id.main_bar_view), Gravity.BOTTOM, 0, 150);  // 0 - X postion and 150 - Y position
 
-        //mapFragment.addPlot(v);
+
+        return true;
+    }
+
+    public boolean startPlotting(MenuItem v){
+        mapFragment.startPlotting();
+        return true;
+    }
+
+    public boolean savePlotInfo(View v){
+        //TODO: save things the user entered to DB
         return true;
     }
     public boolean editCurrentPlot(MenuItem v){
