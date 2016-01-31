@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--MAP AND LIST VIEW BUTTONS-->
+    <item
+        android:id="@+id/add_plot_bar_button"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/action_addPlot"
+        android:onClick="addPlot"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/edit_plot_bar_button"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/action_editPlot"
+        android:onClick="editCurrentPlot"
+        app:showAsAction="always" />
+
+</menu>
