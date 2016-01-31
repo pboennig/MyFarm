@@ -8,8 +8,13 @@ import android.widget.ListView;
  * Created by jakeglass on 1/30/16.
  */
 public class PlotMapActivity extends Activity {
+<<<<<<< Updated upstream
   /*  ListView listView;
 
+=======
+    ListView listView;
+/*
+>>>>>>> Stashed changes
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

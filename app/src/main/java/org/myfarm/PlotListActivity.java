@@ -9,7 +9,11 @@ import android.widget.SimpleCursorAdapter;
  * Created by jakeglass on 1/30/16.
  */
 public class PlotListActivity extends ListActivity {
+<<<<<<< Updated upstream
     /*implements LoaderManager.LoaderCallbacks<Cursor> {
+=======
+   /* implements LoaderManager.LoaderCallbacks<Cursor> {
+>>>>>>> Stashed changes
 
         // This is the Adapter being used to display the list's data
         SimpleCursorAdapter mAdapter;
