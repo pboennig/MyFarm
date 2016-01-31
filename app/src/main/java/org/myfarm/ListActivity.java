@@ -30,10 +30,10 @@ public class ListActivity extends ListFragment implements AdapterView.OnItemClic
 
         super.onActivityCreated(savedInstanceState);
 
-        PlotDbHelper dbHelper = new PlotDbHelper(getContext());
+        PlotDbHelper dbHelper = new PlotDbHelper(getActivity().getApplicationContext());
         Cursor cursor = dbHelper.getPlots("*");
 
-        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(getContext(),android.R.layout.simple_list_item_1,cursor,new String[]{"NAME"},new int[] {android.R.id.text1});
+        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,cursor,new String[]{"NAME"},new int[] {android.R.id.text1});
         setListAdapter(cursorAdapter);
         getListView().setOnItemClickListener(this);
 

@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -13,33 +16,31 @@ import com.google.gson.Gson;
  */
 public class PlotDbHelper extends SQLiteOpenHelper {
 
-    public SQLiteDatabase db;
+    SQLiteDatabase db;
 
-    //init
-    @Override
-    public void onCreate(SQLiteDatabase db){
-        db = this.getWritableDatabase();
-        db.execSQL(DICTIONARY_TABLE_CREATE);
-
-        //return (db == null) ? false:true;
-    }
 
     public static final String DICTIONARY_TABLE_NAME = "PLOTS";
 
     private static final int DATABASE_VERSION = 2;
     private static final String DICTIONARY_TABLE_CREATE =
-            "CREATE TABLE " + DICTIONARY_TABLE_NAME + " (" +
-                    "KEYWORD" + " TEXT, " +
-                    "KEYDEFINITION" + " TEXT);";
-
+            "CREATE TABLE IF NOT EXISTS " + DICTIONARY_TABLE_NAME + " (" +"_id NULL, NAME TEXT, LAT_COORDINATES REAL, LONG_COORDINATES REAL, FERTILIZER_TYPE TEXT,PLOT_AREA REAL," +
+                    "FERTILIZER_QUANTITY REAL, SOIL_TYPE TEXT, WATER_QUANTITY REAL, CARE_HISTORY TEXT, NOTES TEXT);";
 
     //public initializer
     public PlotDbHelper(Context context) {
-        super(context, "database.db", null, 1);
+        super(context, "PLOTS", null, 1);
+        Log.d("ERR", "triangle");
+        try {
+            db = this.getWritableDatabase();
+            System.out.println(db.toString());
+        } catch (Exception e) {
+            System.out.println("OMG THERE WAS AN ERROR: " + e.getMessage());
+        }
     }
-
-    public final String[] columns = {"NAME",
-            "COORDINATES",
+    public final String[] columns = {"_id",
+            "NAME",
+            "LAT_COORDINATES",
+            "LONG_COORDINATES",
             "FERTILIZER_TYPE",
             "PLOT_AREA",
             "FERTILIZER_QUANTITY",
@@ -52,6 +53,11 @@ public class PlotDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db){
+        db.execSQL(DICTIONARY_TABLE_CREATE);
     }
 
     public Cursor getPlots(String filter){
