@@ -16,7 +16,7 @@ public enum Crop {
         int month = cal.get(cal.get(Calendar.MONTH));
         this.optimalFertilizer = optimalFertilizer;
         this.kcValue = kcValue;
-        this.optimalWater = kcValue * (EvapValues.P_VALUES[month] * (0.46 * Values.T_VALUES[month] + 8.0));
+        this.optimalWater = kcValue * (EvapValues.P_VALUES[month] * (0.46 * EvapValues.T_VALUES[month] + 8.0));
         this.seedsPerHectare = seedsPerHectare;
     }
     
