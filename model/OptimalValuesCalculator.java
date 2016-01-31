@@ -46,4 +46,5 @@ public class OptimalValuesCalculator {
     public int getHarvest() {
         return this.crop.getHarvest();
     }
+    
 }
