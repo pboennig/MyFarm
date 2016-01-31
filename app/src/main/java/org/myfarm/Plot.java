@@ -7,17 +7,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jakeglass on 1/30/16.
  */
 public class Plot {
-    public ArrayList<Float> latCoordinates;
-    public ArrayList<Float> longCoordinates;
+    public List<LatLng> coordinates;
     public String plotName;
     public String fertilizerType;
     public float fertilizerQuantity;
@@ -26,5 +27,6 @@ public class Plot {
     public Array careHistory;
     public String notes;
     public float plotArea;
+    public String crop;
 }
 

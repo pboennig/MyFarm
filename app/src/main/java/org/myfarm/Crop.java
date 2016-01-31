@@ -1,3 +1,6 @@
+package org.myfarm;
+
+import org.myfarm.EvapValues;
 
 import java.util.Calendar;
 

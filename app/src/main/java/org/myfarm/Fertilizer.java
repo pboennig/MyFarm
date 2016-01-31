@@ -1,3 +1,5 @@
+package org.myfarm;
+
 public enum Fertilizer {
     CHICKEN (.009),
     COW     (.005),

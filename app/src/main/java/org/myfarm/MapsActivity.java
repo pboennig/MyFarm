@@ -204,14 +204,21 @@ public class MapsActivity extends MapFragment implements OnMapReadyCallback, Con
         plotting = true;
         //override to regenerate the menu
         getActivity().invalidateOptionsMenu();
-        this.onCreateOptionsMenu(localMenu,localInflater);
+        this.onCreateOptionsMenu(localMenu, localInflater);
     }
 
     public Object[] endPlotting(){
         plotting = false;
         getActivity().invalidateOptionsMenu();
-        this.onCreateOptionsMenu(localMenu,localInflater);
+        this.onCreateOptionsMenu(localMenu, localInflater);
         return new Object[]{plots, plot_areas};
+    }
+
+    public double getPlotArea(){
+        return plot_areas.get(0);
+    }
+    public List<LatLng> getPoints() {
+        return plots.get(0).getPoints();
     }
 
     public void addPlot(MenuItem v) {

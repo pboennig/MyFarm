@@ -1,3 +1,5 @@
+package org.myfarm;
+
 public class EvapValues {
     // gives values for 20, 25, 30 degrees respectively.
     public static final double[] P_VALUES = {.25, .26, .27, .28, .29, .30, .30, .29, .28, .26, .25, .25};

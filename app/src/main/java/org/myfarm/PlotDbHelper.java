@@ -39,15 +39,15 @@ public class PlotDbHelper extends SQLiteOpenHelper {
     }
     public final String[] columns = {"_id",
             "NAME",
-            "LAT_COORDINATES",
-            "LONG_COORDINATES",
+            "COORDINATES",
             "FERTILIZER_TYPE",
             "PLOT_AREA",
             "FERTILIZER_QUANTITY",
             "SOIL_TYPE",
             "WATER_QUANTITY",
             "CARE_HISTORY",
-            "NOTES"};
+            "NOTES",
+            "CROP"};
 
     //Apparently overriding this function is required unless this class is declared in abstract
     @Override
@@ -78,14 +78,12 @@ public class PlotDbHelper extends SQLiteOpenHelper {
         if(plot != null){
             Gson gson = new Gson();
 
-            String latCoorString = gson.toJson(plot.latCoordinates);
-            String longCoorString = gson.toJson(plot.longCoordinates);
+            String coorString = gson.toJson(plot.coordinates);
             String careHistoryString = gson.toJson(plot.careHistory);
 
             ContentValues values = new ContentValues();
             values.put("NAME",plot.plotName);
-            values.put("LAT_COORDINATES",latCoorString);
-            values.put("LONG_COORDINATES",longCoorString);
+            values.put("COORDINATES",coorString);
             values.put("FERTILIZER_TYPE",plot.fertilizerType);
             values.put("PLOT_AREA",plot.plotArea);
             values.put("FERTILIZER_QUANTITY",plot.fertilizerQuantity);
@@ -93,6 +91,8 @@ public class PlotDbHelper extends SQLiteOpenHelper {
             values.put("WATER_QUANTITY",plot.waterQuantity);
             values.put("CARE_HISTORY",careHistoryString);
             values.put("NOTES",plot.notes);
+            values.put("CROP",plot.notes);
+
 
             db.insert(DICTIONARY_TABLE_NAME,null,values);
             /*TODO: add filters and order for querying rows in raw SQL*/
