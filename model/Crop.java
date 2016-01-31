@@ -1,10 +1,10 @@
 import java.util.Calendar;
 
 public enum Crop {
-    CORN (67, 0.4, 75000, 9, 1, "#FFF00"), 
-    RICE (50, 1.1, 250000, 5, 10, "#000000"),
-    GRAIN (110, .35, 700000, 10, 3, "#A67B5B"),
-    SOYBEAN (15, .35, 123552, 10, 4, "#99FF00");
+    CORN (67, 0.4, 75000, 9, 1, {255, 255, 0}), 
+    RICE (50, 1.1, 250000, 5, 10, {0,0,0}),
+    GRAIN (110, .35, 700000, 10, 3, {166, 123, 91),
+    SOYBEAN (15, .35, 123552, 10, 4, {153, 255, 0});
     
     public final double optimalFertilizer;
     public double optimalWater;
@@ -12,9 +12,9 @@ public enum Crop {
     public final int seedsPerHectare;
     public final int startOfPlantingMonth;
     public final int startOfHarvestMonth;
-    public final String color;
+    public final int[] color;
     
-    Crop(double optimalFertilizer, double kcValue, int seedsPerHectare, int startOfPlantingMonth, int startOfHarvestMonth, String color) {
+    Crop(double optimalFertilizer, double kcValue, int seedsPerHectare, int startOfPlantingMonth, int startOfHarvestMonth, int[] color) {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(cal.get(Calendar.MONTH));
         this.optimalFertilizer = optimalFertilizer;
