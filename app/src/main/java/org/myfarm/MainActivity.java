@@ -1,6 +1,7 @@
 package org.myfarm;
 
-import android.app.Activity;
+import android.app.*;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,11 +10,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.*;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
@@ -30,7 +30,9 @@ import com.google.android.gms.maps.MapFragment;
 
 public class MainActivity extends AppCompatActivity implements MapsActivity.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MapsActivity.class.getSimpleName();
+
     private MapsActivity mapFragment = new MapsActivity();
+    private ListActivity listFragment = new ListActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +40,6 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        /*//fragment handling
-        Fragment fragment = null;
-        Class fragmentClass = null;
-        fragmentClass = MapsActivity.class;
-        try {
-            Log.d(TAG,"fragCreateInActivity");
-            fragment = (MapsActivity) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
 
         //finish nav layout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -105,19 +95,14 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
         Class fragmentClass = null;
 
         if (id == R.id.nav_map) {
-
-            //initiate buttons
             FragmentTransaction fragmentTransaction =  getFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.main_bar_view, mapFragment);
             fragmentTransaction.commit();
 
-
-            // Handle the camera action
-            /*Intent intent = new Intent(this,MapsActivity.class);
-            startActivity(intent);
-            Log.d(TAG, "test");*/
         } else if (id == R.id.nav_list) {
-            Intent intent = new Intent(this,PlotListActivity.class);
+            FragmentTransaction fragmentTransaction =  getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.main_bar_view, listFragment);
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_supplies) {
 
         } else if (id == R.id.nav_yields) {
