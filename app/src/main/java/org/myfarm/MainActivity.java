@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
     private static final String TAG = MapsActivity.class.getSimpleName();
 
     private MapsActivity mapFragment = new MapsActivity();
+
     private ListActivity listFragment = new ListActivity();
 
     public String fertilizerSpinnerSelection;
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
 
     public  PopupWindow popWindow;
     private View plotEditPopoverView;
+
+    public Plot plot = new Plot();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
 
     //implement action handlers into fragments
     public boolean donePlotting(MenuItem v){
+        plot.coordinates = mapFragment.onSaveInstanceState();
+        plot.plotArea = (float) mapFragment.getPlotArea();
 
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         plotEditPopoverView = layoutInflater.inflate(R.layout.plot_edit_popover,null);
@@ -174,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
         popWindow.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));        //popWindow.setAnimationStyle(android.R.anim.an); // call this before showing the popup
 
         popWindow.showAtLocation(findViewById(R.id.main_bar_view), Gravity.BOTTOM, 0, 150);  // 0 - X postion and 150 - Y position
+
 
         /*//set up fertilizerSpinner
         Spinner fertilizerSpinner;
@@ -229,10 +235,6 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
     public boolean savePlotInfo(View v){
 
         Log.d("TEST","OOH SAVEPLOTINFO OOH");
-        Plot plot = new Plot();
-
-        plot.coordinates = mapFragment.getPoints();
-        plot.plotArea = (float) mapFragment.getPlotArea();
 
         plot.plotName = ((EditText)plotEditPopoverView.findViewById(R.id.plot_name_field)).getText().toString();
 
