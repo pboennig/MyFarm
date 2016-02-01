@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
     public String cropSpinnerSelection;
 
     public  PopupWindow popWindow;
+    private View plotEditPopoverView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,13 +161,13 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
     public boolean donePlotting(MenuItem v){
 
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View inflatedView = layoutInflater.inflate(R.layout.plot_edit_popover,null);
+        plotEditPopoverView = layoutInflater.inflate(R.layout.plot_edit_popover,null);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
-        popWindow = new PopupWindow(inflatedView, size.x - 50,size.y - 500, true);
+        popWindow = new PopupWindow(plotEditPopoverView, size.x - 50,size.y - 500, true);
 
         popWindow.setFocusable(true);
         popWindow.setOutsideTouchable(true);
@@ -233,9 +234,9 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
         plot.coordinates = mapFragment.getPoints();
         plot.plotArea = (float) mapFragment.getPlotArea();
 
-        plot.plotName = ((EditText)findViewById(R.id.plot_name_field)).getText().toString();
+        plot.plotName = ((EditText)plotEditPopoverView.findViewById(R.id.plot_name_field)).getText().toString();
 
-        popWindow.dismiss();
+        Log.d("TEST", "PLOTNAME IS " + plot.plotName);
 
         //get values from radio selectors
         int cropRadioId = ((RadioGroup)findViewById(R.id.crop_radio_group)).getCheckedRadioButtonId();
@@ -246,6 +247,9 @@ public class MainActivity extends AppCompatActivity implements MapsActivity.OnFr
 
         plot.crop = cropChoice;
         plot.fertilizerType = fertilizerChoice;
+
+        //dismiss the old popWindow
+        popWindow.dismiss();
 
         //DO CALCULATIONS & show the view plot stats winder'
 
